@@ -1,13 +1,16 @@
 import Chart from "../../components/chart/Chart";
-import FeaturedInfo from "../../components/featuredInfo/FeaturedInfo";
+// import FeaturedInfo from "../../components/featuredInfo/FeaturedInfo";
 import "./home.css";
 import WidgetSm from "../../components/widgetSm/WidgetSm";
 import WidgetLg from "../../components/widgetLg/WidgetLg";
+// import { authContext } from "../../context/authContext/AuthContext";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../../context/authContext/AuthContext";
 
 export default function Home() {
+  const { user } = useContext(AuthContext);
   const MONTHS = useMemo(
     () => [
       "Jan",
@@ -35,9 +38,7 @@ export default function Home() {
           `https://netflix-clone-backend-c5fq.onrender.com/api/users/stats`,
           {
             headers: {
-              token:
-                "Bearer " +
-                JSON.parse(localStorage.getItem("user")).accessToken,
+              token: "Bearer " + user.accessToken,
             },
           }
         );
@@ -54,11 +55,11 @@ export default function Home() {
       }
     };
     getStats();
-  }, [MONTHS]);
+  }, [MONTHS, user]);
 
   return (
     <div className="home">
-      <FeaturedInfo />
+      {/* <FeaturedInfo /> */}
       <Chart data={userStats} title="User Analytics" grid dataKey="New User" />
       <div className="homeWidgets">
         <WidgetSm />

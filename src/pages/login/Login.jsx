@@ -2,15 +2,15 @@ import React, { useState, useContext } from "react";
 import { login } from "../../context/authContext/apiCalls";
 import { AuthContext } from "../../context/authContext/AuthContext";
 import "./login.css";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 const Login = () => {
   const [inputData, setInputData] = useState({
     email: "",
     password: "",
   });
-  const { user, isFetching, dispatch } = useContext(AuthContext);
-  const history = useHistory();
+  const { isFetching, dispatch, error } = useContext(AuthContext);
+  // const history = useHistory();
 
   function handleChange(e) {
     setInputData((prev) => {
@@ -49,7 +49,13 @@ const Login = () => {
         >
           Login
         </button>
-        {user !== null && history.push("/")}
+        {error && (
+          <span
+            style={{ color: "red", fontWeight: "bold", paddingTop: "10px" }}
+          >
+            Something went wrong
+          </span>
+        )}
       </form>
     </div>
   );
